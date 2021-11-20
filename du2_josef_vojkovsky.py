@@ -4,10 +4,9 @@ with open("hm.csv", encoding="UTF-8") as csvfile, open("hm_out.csv", "w", encodi
     reader = csv.reader(csvfile, delimiter = ",")
     writer = csv.writer(csvoutfile)
     sum = 0
-    pocet_radku = 0
+    step = 7
     for row in reader:
-        pocet_radku += 1 
-        radek_cislo = float(row[-1].strip())
-        sum += radek_cislo
-    print(math.ceil(pocet_radku/7))
-        # writer.writerow()
+        cislo_na_radku = float(row[-1].strip())
+        sum += cislo_na_radku
+        if reader.line_num == 1 or reader.line_num % 7 == 1:
+            writer.writerow(row[0:-1] + [row[-1].strip()])
