@@ -1,4 +1,4 @@
-**Manuál pro program**
+***Manuál pro program***
 
 Tento program umí načíst soubor s příponou .csv nacházející se ve stejné složce. Tento program se musí jmenovat vstup.csv a jeho sloupce musí být v následujícm formátu, rozděleny čárkou:
 
