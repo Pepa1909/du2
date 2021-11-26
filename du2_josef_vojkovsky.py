@@ -1,5 +1,6 @@
 # naimportování potřebných modulů
 import csv
+from os import stat
 import statistics
 import math
 
@@ -25,6 +26,21 @@ def duplikat(row):
         print(f"datový soubor obsahuje duplikát, den {row[2:-1]} je zapsaný dvakrát. Program se ukončí")
         quit()
 
+# funkce na extrémy
+def extremy(max_prutok_list, min_prutok_list):
+    max_prutok = max_prutok_list[0]
+    for hodnoty_max_prutok in max_prutok_list:
+        if hodnoty_max_prutok > max_prutok:
+            max_prutok = hodnoty_max_prutok
+    min_prutok = min_prutok_list[0]
+    for hodnoty_min_prutok in min_prutok_list:
+        if hodnoty_min_prutok < min_prutok:
+            min_prutok = hodnoty_min_prutok
+    max_prutok_list =[max_prutok]
+    min_prutok_list = [min_prutok]
+    return max_prutok,min_prutok
+
+
 # otevření souborů na sedmidenní průměr
 with open("vstup.csv", encoding="UTF-8") as csvfile, open("vystup_7dni.csv", "w", encoding = "UTF-8", newline="") as csvoutfile:
     reader = csv.reader(csvfile, delimiter = ",")
@@ -32,8 +48,12 @@ with open("vstup.csv", encoding="UTF-8") as csvfile, open("vystup_7dni.csv", "w"
     # vytvoření listů na ukládání klíčových hodnot
     hodnota_prutoku_tyden = []
     radek_tyden_list = []
+    max_prutok_list = []
+    min_prutok_list = []
     # for cyklus, který projede celý .csv soubor
     for row_tyden in reader:
+        max_prutok_list.append(float(row_tyden[-1]))
+        min_prutok_list.append(float(row_tyden[-1]))
         radek_tyden_list.append(row_tyden[0:-1])
         try_block(hodnota_prutoku_tyden,row_tyden)
         # vložený for cyklus, který se stane (počet řádků ve vstupním souboru)/7-krát, ale dělení je celočíselné
@@ -45,6 +65,7 @@ with open("vstup.csv", encoding="UTF-8") as csvfile, open("vystup_7dni.csv", "w"
                 writer.writerow(radek_tyden_list[0] + ["   "+ format(prumer_tyden, ".4f")])
                 hodnota_prutoku_tyden=[]
                 radek_tyden_list = []
+                extremy(max_prutok_list,min_prutok_list)
     # toto se stane, když v souboru nezbývá 7 dnů
     zbytek(hodnota_prutoku_tyden, prumer_tyden, radek_tyden_list, writer)
 
@@ -64,8 +85,8 @@ with open("vstup.csv", encoding="UTF-8") as csvfile, open("vystup_rok.csv", "w",
         # podobně jako u týdenního průměru, toto se stane (počet řádků ve vstupním souboru)/365-krát, zaokrouhleno nahoru
         for _ in  range(math.ceil(len(hodnota_prutoku_rok)/365)):
             duplikat(row_tyden)
-            # když jsou v seznamu roků alespoň 2 hodnoty a poslední se nerovná předposlední, nastane odebrání posledního řádku (už jiný rok)
-            # a vypočítá se průměr z předešlých hodnot; pak se seznamy vyčistí, ale ponechá se v nich odebraný řádek z předešlého roku (jedná se totiž o 1. leden nového roku)
+            # když jsou v seznamu roků alespoň 2 hodnoty a poslední se nerovná předposlední, nastane odebrání posledního řádku (už jiný rok) a vypočítá se
+            # průměr z předešlých hodnot; pak se seznamy vyčistí, ale ponechá se v nich odebraný řádek z předešlého roku (jedná se totiž o 1. leden nového roku)
             if len(rok) > 1 and rok[-2] != rok[-1]:
                 prvni_hodnota=hodnota_prutoku_rok.pop()
                 prvni_radek=radek_rok_list.pop()
