@@ -50,9 +50,8 @@ try:
             prutok_list.append(row_tyden)
             radek_tyden_list.append(row_tyden[0:-1])
             try_block(hodnota_prutoku_tyden,row_tyden)
-            # vložený for cyklus, který se stane (počet řádků ve vstupním souboru)/7-krát, ale dělení je celočíselné
             duplikat(row_tyden,radek_tyden_list)
-                # pokud je délka seznamu hodnot 7, udělá se z nich průměr, řádek se vytiskne do výstupu, seznamy se vyčistí a jede se znovu
+            # pokud je délka seznamu hodnot 7, udělá se z nich průměr, řádek se vytiskne do výstupu, seznamy se vyčistí a jede se znovu
             if len(hodnota_prutoku_tyden) == 7:
                 prumer_tyden = statistics.mean(hodnota_prutoku_tyden)
                 writer.writerow(radek_tyden_list[0] + ["   "+ format(prumer_tyden, ".4f")])
@@ -62,7 +61,8 @@ try:
         zbytek(hodnota_prutoku_tyden, prumer_tyden, radek_tyden_list, writer)
         # část, která se postará o extrémy v daném souboru
         max_prutok, min_prutok = extremy(prutok_list)
-        print(f"nejvyšší denní průtok byl {max_prutok[-1].strip()} dne {max_prutok[-2]}. {max_prutok[-3]}. {max_prutok[-4]},\nnejnižší denní průtok byl {min_prutok[-1].strip()} dne {min_prutok[-2]}. {min_prutok[-3]}. {min_prutok[-4]}")
+        print(f"nejvyšší denní průtok byl {max_prutok[-1].strip()} m**3/s dne {max_prutok[-2]}. {max_prutok[-3]}. {max_prutok[-4]},\nnejnižší denní průtok byl {min_prutok[-1].strip()} m**3/s dne {min_prutok[-2]}. {min_prutok[-3]}. {min_prutok[-4]}")
+# ošetření chyb, které mohou nastat 
 except FileNotFoundError:
     print("Soubor nenalezen. Soubor .csv se musí nacházet ve stejné složce jako tento program.")
     quit()
@@ -84,10 +84,9 @@ try:
             radek_rok_list.append(row_rok[0:-1])
             try_block(hodnota_prutoku_rok,row_rok)
             rok.append(int(row_rok[2]))
-            # podobně jako u týdenního průměru, toto se stane (počet řádků ve vstupním souboru)/365-krát, zaokrouhleno nahoru
             duplikat(row_tyden, radek_rok_list)
-                # když jsou v seznamu roků alespoň 2 hodnoty a poslední se nerovná předposlední, nastane odebrání posledního řádku (už jiný rok) a vypočítá se
-                # průměr z předešlých hodnot; pak se seznamy vyčistí, ale ponechá se v nich odebraný řádek z předešlého roku (jedná se totiž o 1. leden nového roku)
+            # když jsou v seznamu roků alespoň 2 hodnoty a poslední se nerovná předposlední, nastane odebrání posledního řádku (už jiný rok) a vypočítá se
+            # průměr z předešlých hodnot; pak se seznamy vyčistí, ale ponechá se v nich odebraný řádek z předešlého roku (jedná se totiž o 1. leden nového roku)
             if len(rok) > 1 and rok[-2] != rok[-1]:
                 prvni_hodnota=hodnota_prutoku_rok.pop()
                 prvni_radek=radek_rok_list.pop()
@@ -96,8 +95,9 @@ try:
                 hodnota_prutoku_rok = [prvni_hodnota]
                 rok = []
                 radek_rok_list = [prvni_radek]
-        # provede se pro poslední rok v záznamu, jinak by chyběl (druhá část podmínky z řádku 85 už nemůže nastat)
+        # provede se pro poslední rok v záznamu, jinak by chyběl (druhá část podmínky z řádku 90 už nemůže nastat)
         zbytek(hodnota_prutoku_rok, prumer_rok, radek_rok_list, writer)
+# ošetření chyb, které mohou nastat 
 except FileNotFoundError:
     print("Soubor nenalezen. Soubor .csv se musí nacházet ve stejné složce jako tento program.")
     quit()
