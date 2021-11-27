@@ -1,7 +1,6 @@
 # Manuál pro program
 
-Tento program umí načíst soubor s příponou .csv nacházející se ve stejné složce. Soubor se musí jmenovat vstup.csv, jeho řádky musí být
-v následujícm formátu, hodnoty rozděleny čárkou:
+Tento program umí načíst soubor s příponou .csv nacházející se ve stejné složce. Soubor se musí jmenovat vstup.csv, jeho řádky musí být   v následujícm formátu, hodnoty rozděleny čárkou:
 
 databázové číslo,označení typu dat,rok,měsíc,den,průměrný denní průtok (m3/s)
 
