@@ -1,7 +1,6 @@
 # naimportování potřebných modulů
 import csv
 import statistics
-import math
 
 # definování několika funkcí, které se opakují pro oba výstupy
 
@@ -95,7 +94,7 @@ try:
                 hodnota_prutoku_rok = [prvni_hodnota]
                 rok = []
                 radek_rok_list = [prvni_radek]
-        # provede se pro poslední rok v záznamu, jinak by chyběl (druhá část podmínky z řádku 90 už nemůže nastat)
+        # provede se pro poslední rok v záznamu, jinak by chyběl (druhá část podmínky z řádku 89 už nemůže nastat)
         zbytek(hodnota_prutoku_rok, prumer_rok, radek_rok_list, writer)
 # ošetření chyb, které mohou nastat 
 except FileNotFoundError:
