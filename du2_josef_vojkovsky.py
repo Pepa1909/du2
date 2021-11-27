@@ -68,7 +68,7 @@ except FileNotFoundError:
     print("Soubor nenalezen. Soubor .csv se musí nacházet ve stejné složce jako tento program.")
     quit()
 except PermissionError:
-    print("Program nema oprávnění ke čtení souboru, upravte pravidla nebo zkuste vše přesunout do jiné složky.")
+    print("Program nemá oprávnění ke čtení souboru, upravte pravidla nebo zkuste vše přesunout do jiné složky.")
     quit()
 
 # roční průměr
@@ -104,5 +104,5 @@ except FileNotFoundError:
     print("Soubor nenalezen. Soubor .csv se musí nacházet ve stejné složce jako tento program.")
     quit()
 except PermissionError:
-    print("Program nema oprávnění ke čtení souboru, upravte pravidla nebo zkuste vše přesunout do jiné složky.")
+    print("Program nemá oprávnění ke čtení souboru, upravte pravidla nebo zkuste vše přesunout do jiné složky.")
     quit()
