@@ -1,6 +1,5 @@
 # naimportování potřebných modulů
 import csv
-from os import stat
 import statistics
 import math
 
@@ -12,7 +11,7 @@ def zbytek(hodnota, prumer, radek_list, writer):
         prumer = statistics.mean(hodnota)
         writer.writerow(radek_list[0] + ["   "+ format(prumer, ".4f")])
 
-# funkce, která ošetřuje chybějící hodnotu průtoku (= poslední sloupec)
+# funkce, která ošetřuje chybějící hodnotu průtoku (= poslední sloupec), když je řádek v pořádku, přidá průtok do seznamu
 def try_block(hodnota, row):
     try:
         hodnota.append(float(row[-1]))
@@ -20,10 +19,10 @@ def try_block(hodnota, row):
         print(f"chybí data za den {row[2:-1]}. Prosím doplňte.")
         quit()
 
-#funkce, která ošetřuje duplicitní dny ve vstupu
+# funkce, která ošetřuje duplicitní dny ve vstupu
 def duplikat(row):
     if len(radek_tyden_list) > 1 and radek_tyden_list[-2] == radek_tyden_list[-1]:
-        print(f"datový soubor obsahuje duplikát, den {row[2:-1]} je zapsaný dvakrát. Program se ukončí")
+        print(f"datový soubor obsahuje duplikát, den {row[2:-1]} je zapsaný dvakrát. Program se ukončí.")
         quit()
 
 # funkce na extrémy
@@ -53,16 +52,17 @@ with open("vstup.csv", encoding="UTF-8") as csvfile, open("vystup_7dni.csv", "w"
         # vložený for cyklus, který se stane (počet řádků ve vstupním souboru)/7-krát, ale dělení je celočíselné
         for _ in range(len(hodnota_prutoku_tyden)//7):
             duplikat(row_tyden)
-            # pokud je délka seznamu hodnot 7, udělá se z nich průměr, řádek se vytiskne do výstupu, seznamy se vyčistí, vypíší a jede se znovu
+            # pokud je délka seznamu hodnot 7, udělá se z nich průměr, řádek se vytiskne do výstupu, seznamy se vyčistí a jede se znovu
             if len(hodnota_prutoku_tyden) == 7:
                 prumer_tyden = statistics.mean(hodnota_prutoku_tyden)
                 writer.writerow(radek_tyden_list[0] + ["   "+ format(prumer_tyden, ".4f")])
                 hodnota_prutoku_tyden=[]
                 radek_tyden_list = []
-    max_prutok, min_prutok =extremy(prutok_list)
-    print(f"nejvyšší denní průtok byl {max_prutok[-1].strip()} dne {max_prutok[2:-1]}, nejnižší denní průtok byl {min_prutok[-1].strip()} dne {min_prutok[2:-1]}")
     # toto se stane, když v souboru nezbývá 7 dnů
     zbytek(hodnota_prutoku_tyden, prumer_tyden, radek_tyden_list, writer)
+    # část, která se postará o extrémy v daném souboru
+    max_prutok, min_prutok = extremy(prutok_list)
+    print(f"nejvyšší denní průtok byl {max_prutok[-1].strip()} dne {max_prutok[2:-1]}, nejnižší denní průtok byl {min_prutok[-1].strip()} dne {min_prutok[2:-1]}")
 
 # otevření souborů na roční průměr
 with open("vstup.csv", encoding="UTF-8") as csvfile, open("vystup_rok.csv", "w", encoding = "UTF-8", newline="") as csvoutfile:
@@ -90,5 +90,5 @@ with open("vstup.csv", encoding="UTF-8") as csvfile, open("vystup_rok.csv", "w",
                 hodnota_prutoku_rok = [prvni_hodnota]
                 rok = []
                 radek_rok_list = [prvni_radek]
-    # provede se pro poslední rok v záznamu, jinak by chyběl (druhá část podmínky z řádku AFFAFADF už nemůže nastat)
+    # provede se pro poslední rok v záznamu, jinak by chyběl (druhá část podmínky z řádku 85 už nemůže nastat)
     zbytek(hodnota_prutoku_rok, prumer_rok, radek_rok_list, writer)

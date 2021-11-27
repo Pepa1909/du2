@@ -7,7 +7,7 @@ databázové číslo,označení typu dat,rok,měsíc,den,průměrný denní prů
 příklad:
 238000,QD,2016,02,13,   8.2400
 
-Program následně soubor přečte, a vytvoří 2 nové soubory: vystup_7dni.csv a vystup_rok.csv. Pokud nalezne chybějící hodnoty či zduplikované řádky, napíše, kde se daná chyba nachází, a ukončí se.
+Program následně soubor přečte, a vytvoří 2 nové soubory: vystup_7dni.csv a vystup_rok.csv. Pokud nalezne chybějící hodnoty či zduplikované řádky, napíše, kde se daná chyba nachází, a ukončí se. Program navíc do terminálu (obdélník dole) napíše minimum a maximum za daný rok i se dnem, kdy jev nastal.
 
 V souboru vystup_7dni.csv se budou vyskytovat průměrné hodnoty za každých 7 dní od začátku měření s tím, že v souboru bude datum prvního dne daného týdnu; když by na poslední týden nevyzbylo 7 dní, vezme všechny zbylé dny.
 
